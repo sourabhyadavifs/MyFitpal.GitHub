@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyFitPal | Lab-Driven Fitness & Personalized Nutrition</title>
+<link rel="preconnect" href="[https://fonts.googleapis.com](https://www.google.com/search?q=https://fonts.googleapis.com)">
+<link rel="preconnect" href="[https://fonts.gstatic.com](https://www.google.com/search?q=https://fonts.gstatic.com)" crossorigin>
+<link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap](https://www.google.com/search?q=https://fonts.googleapis.com/css2%3Ffamily%3DInter:wght%40300%3B400%3B600%3B700%3B800%26display%3Dswap)" rel="stylesheet">
+<link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://www.google.com/search?q=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+
+```
+<style>
+    :root {
+        --primary: #0A2342; /* Medical Trust Blue */
+        --secondary: #00A896; /* Vitality Teal */
+        --accent: #FF6B6B; /* Alert Coral */
+        --bg-light: #FFFFFF;
+        --bg-alt: #F4F7F6;
+        --text-dark: #1A1A1A;
+        --text-muted: #5F6368;
+        --border-color: #E0E4E3;
+        --shadow: 0 10px 30px rgba(0,0,0,0.05);
+        --transition: all 0.3s ease;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-light);
+        color: var(--text-dark);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    /* --- Global Components --- */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 14px 28px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: var(--transition);
+        cursor: pointer;
+        border: none;
+        text-align: center;
+    }
+
+    .btn-primary {
+        background-color: var(--accent);
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #ff5252;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+        background-color: var(--primary);
+        color: #fff;
+    }
+
+    .section-padding {
+        padding: 100px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 15px;
+        font-weight: 800;
+    }
+
+    .section-title p {
+        color: var(--text-muted);
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    /* --- 1. Sticky Header --- */
+    header {
+        position: sticky;
+        top: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        padding: 15px 0;
+    }
+
+    header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--primary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logo i {
+        color: var(--secondary);
+    }
+
+    nav ul {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: var(--primary);
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: var(--transition);
+    }
+
+    nav ul li a:hover {
+        color: var(--secondary);
+    }
+
+    /* --- 2. Hero Section --- */
+    .hero {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #F4F7F6 0%, #FFFFFF 100%);
+        overflow: hidden;
+    }
+
+    .hero-flex {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        align-items: center;
+        gap: 50px;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        color: var(--primary);
+        margin-bottom: 25px;
+        font-weight: 800;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 35px;
+        max-width: 500px;
+    }
+
+    .hero-btns {
+        display: flex;
+        gap: 15px;
+    }
+
+    .hero-visual {
+        position: relative;
+    }
+
+    .dashboard-mockup {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        border: 1px solid var(--border-color);
+    }
+
+    .metric-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .metric-card {
+        padding: 15px;
+        border-radius: 12px;
+        background: var(--bg-alt);
+        border-left: 4px solid var(--secondary);
+    }
+
+    .metric-card.alert {
+        border-left-color: var(--accent);
+    }
+
+    .metric-card h4 {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+
+    .metric-card .value {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    /* --- 3. Credibility Signals --- */
+    .credibility {
+        background: var(--primary);
+        color: white;
+        padding: 40px 0;
+    }
+
+    .credibility-flex {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .trust-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .trust-item i {
+        font-size: 1.5rem;
+        color: var(--secondary);
+    }
+
+    .trust-item span {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    /* --- 4. Problem Section --- */
+    .problem-section {
+        background-color: var(--bg-alt);
+    }
+
+    .problem-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .problem-card {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        text-align: center;
+        transition: var(--transition);
+    }
+
+    .problem-card i {
+        font-size: 2rem;
+        color: var(--accent);
+        margin-bottom: 20px;
+    }
+
+    .problem-card h3 {
+        margin-bottom: 15px;
+        color: var(--primary);
+    }
+
+    /* --- 5. Philosophy --- */
+    .philosophy-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        margin-top: 50px;
+    }
+
+    .phil-item h4 {
+        color: var(--secondary);
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+    }
+
+    /* --- 6. How It Works --- */
+    .process-flow {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-top: 50px;
+    }
+
+    .process-step {
+        flex: 1;
+        text-align: center;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-num {
+        width: 50px;
+        height: 50px;
+        background: var(--secondary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-weight: 700;
+        font-size: 1.2rem;
+    }
+
+    /* --- 7. Features Grid --- */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-card {
+        padding: 40px;
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        transition: var(--transition);
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--secondary);
+        box-shadow: var(--shadow);
+    }
+
+    .feature-card i {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: 20px;
+    }
+
+    /* --- 8. Safety & Privacy --- */
+    .safety-box {
+        background: #EAF6F5;
+        padding: 60px;
+        border-radius: 20px;
+        border: 1px solid var(--secondary);
+    }
+
+    .safety-content {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .safety-icon {
+        font-size: 5rem;
+        color: var(--primary);
+        text-align: center;
+    }
+
+    /* --- 11. Pricing --- */
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 450px));
+        gap: 40px;
+        justify-content: center;
+    }
+
+    .pricing-card {
+        padding: 50px;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        position: relative;
+        background: white;
+    }
+
+    .pricing-card.pro {
+        border: 2.5px solid var(--primary);
+        transform: scale(1.05);
+    }
+
+    .price {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 30px;
+    }
+
+    /* --- 12. FAQ Accordion --- */
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    details {
+        background: white;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+    }
+
+    summary {
+        padding: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--primary);
+    }
+
+    summary::after {
+        content: '+';
+        font-size: 1.5rem;
+    }
+
+    details[open] summary::after {
+        content: '−';
+    }
+
+    /* --- 14. Footer --- */
+    footer {
+        background: var(--primary);
+        color: white;
+        padding: 80px 0 30px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 50px;
+        margin-bottom: 50px;
+    }
+
+    .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 20px;
+        text-decoration: none;
+    }
+
+    .footer-logo i {
+        color: var(--secondary);
+    }
+
+    .footer-links h4 {
+        margin-bottom: 25px;
+        color: var(--secondary);
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .footer-links ul {
+        list-style: none;
+    }
+
+    .footer-links ul li {
+        margin-bottom: 12px;
+    }
+
+    .footer-links ul li a {
+        color: #E0E4E3;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .footer-links ul li a:hover {
+        color: var(--secondary);
+    }
+
+    .disclaimer {
+        font-size: 0.75rem;
+        color: #888;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 30px;
+        text-align: center;
+    }
+
+    @media (max-width: 992px) {
+        .hero-flex { grid-template-columns: 1fr; text-align: center; }
+        .hero-content p { margin: 0 auto 35px; }
+        .hero-btns { justify-content: center; }
+        .process-flow { flex-direction: column; gap: 40px; }
+        .footer-grid { grid-template-columns: 1fr 1fr; }
+        .safety-content { grid-template-columns: 1fr; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+        .hero-content h1 { font-size: 2.5rem; }
+        nav { display: none; }
+        .footer-grid { grid-template-columns: 1fr; }
+    }
+</style>
+
+```
+
+</head>
+<body>
+
+```
+<header>
+    <div class="container">
+        <a href="#" class="logo"><i class="fa-solid fa-dna"></i> MyFitPal</a>
+        <nav>
+            <ul>
+                <li><a href="#how">How It Works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#science">Science</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQs</a></li>
+            </ul>
+        </nav>
+        <a href="#early-access" class="btn btn-primary">Get Early Access</a>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-flex">
+            <div class="hero-content">
+                <h1>Your Bloodwork. Your Body. Not an Influencer’s Opinion.</h1>
+                <p>A lab-driven fitness platform that personalizes nutrition and workouts using medical diagnostics, not guesswork.</p>
+                <div class="hero-btns">
+                    <a href="#early-access" class="btn btn-primary">Get Your Bio-Profile Analysis</a>
+                    <a href="#science" class="btn btn-secondary">View the Science</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="dashboard-mockup">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <span style="font-weight: 700; color: var(--primary);">Clinical Profile</span>
+                        <span style="color: var(--secondary); font-size: 0.8rem;"><i class="fa-solid fa-circle-check"></i> Lab Verified</span>
+                    </div>
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <h4>Glucose (F)</h4>
+                            <div class="value">92 mg/dL</div>
+                            <div style="font-size: 0.7rem; color: var(--secondary);">Optimal</div>
+                        </div>
+                        <div class="metric-card alert">
+                            <h4>TSH Level</h4>
+                            <div class="value">4.8 mIU/L</div>
+                            <div style="font-size: 0.7rem; color: var(--accent);">Borderline</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Lipids (LDL)</h4>
+                            <div class="value">110 mg/dL</div>
+                            <div style="font-size: 0.7rem; color: var(--secondary);">In Range</div>
+                        </div>
+                        <div class="metric-card">
+                            <h4>Kidney (KFT)</h4>
+                            <div class="value">0.9 Cr</div>
+                            <div style="font-size: 0.7rem; color: var(--secondary);">Normal</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="credibility">
+    <div class="container">
+        <div class="credibility-flex">
+            <div class="trust-item"><i class="fa-solid fa-user-doctor"></i> <span>Certified Doctors & Nutritionists</span></div>
+            <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> <span>Privacy-First Data Handling</span></div>
+            <div class="trust-item"><i class="fa-solid fa-flask"></i> <span>Science-Backed Methodology</span></div>
+            <div class="trust-item"><i class="fa-solid fa-vial-circle-check"></i> <span>Medical-Logic Personalization</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding problem-section">
+    <div class="container">
+        <div class="section-title">
+            <h2>Most Fitness Advice Ignores Your Biology</h2>
+            <p>One-size-fits-all plans ignore internal markers, leading to frustration or injury.</p>
+        </div>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <i class="fa-solid fa-ban"></i>
+                <h3>Generic Diet Plans</h3>
+                <p>Standard diets often ignore thyroid or kidney constraints.</p>
+            </div>
+            <div class="problem-card">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h3>Unsafe Workouts</h3>
+                <p>High-intensity training can be harmful without heart health context.</p>
+            </div>
+            <div class="problem-card">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <h3>No Medical Context</h3>
+                <p>Apps focus on steps, not your internal biomarkers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container" style="text-align: center;">
+        <div class="section-title">
+            <h2>Fitness Should Adapt to Your Health</h2>
+        </div>
+        <div class="philosophy-grid">
+            <div class="phil-item">
+                <h4>Measure First</h4>
+                <p>We analyze before we prescribe any routine.</p>
+            </div>
+            <div class="phil-item">
+                <h4>Safety Before Speed</h4>
+                <p>Long-term health over 30-day "shreds".</p>
+            </div>
+            <div class="phil-item">
+                <h4>Sustainability</h4>
+                <p>Built for busy lives, not just fitness enthusiasts.</p>
+            </div>
+            <div class="phil-item">
+                <h4>Science Over Trends</h4>
+                <p>Verified medical logic over social media hype.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="how" class="section-padding" style="background: var(--bg-alt);">
+    <div class="container">
+        <div class="section-title">
+            <h2>How It Works</h2>
+        </div>
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="step-num">1</div>
+                <h3>Upload Lab Values</h3>
+                <p>Input bloodwork like Sugar, Thyroid, and Lipids.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">2</div>
+                <h3>Logic Analysis</h3>
+                <p>Our engine identifies metabolic risks and needs.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">3</div>
+                <h3>Personalized Plan</h3>
+                <p>Get diets and workouts built for your specific data.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-num">4</div>
+                <h3>Expert Oversight</h3>
+                <p>Continuous tracking with certified medical support.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="section-padding">
+    <div class="container">
+        <div class="section-title">
+            <h2>Core Features</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fa-solid fa-camera"></i>
+                <h3>AI Form Correction</h3>
+                <p>Real-time posture guidance to prevent injuries during training.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-droplet"></i>
+                <h3>Lab-First Nutrition</h3>
+                <p>Diets adjusted for Thyroid, Creatinine, and Glucose markers.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-house-medical"></i>
+                <h3>Condition-Aware</h3>
+                <p>Specific support for PCOS, Diabetes, and Spondylitis.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <h3>Myth-Buster Engine</h3>
+                <p>Get science-verified answers to common fitness questions.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-dumbbell"></i>
+                <h3>Omnichannel Training</h3>
+                <p>Switch between home workouts and partner gym access.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-stethoscope"></i>
+                <h3>Medical Support</h3>
+                <p>Direct guidance from doctors and clinical dieticians.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding" style="background: var(--bg-alt);">
+    <div class="container">
+        <div class="safety-box">
+            <div class="safety-content">
+                <div class="safety-icon"><i class="fa-solid fa-user-shield"></i></div>
+                <div>
+                    <h2>Medical Responsibility & Privacy</h2>
+                    <p>We use bank-grade encryption for all health data. Our systems are designed to provide responsible fitness recommendations based on medical logic, ensuring we complement your clinical diagnosis without replacing professional medical advice.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="science" class="section-padding">
+    <div class="container" style="text-align: center;">
+        <div class="section-title">
+            <h2>Decisions Backed by Medical Logic</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>PubMed Philosophy</h3>
+                <p>Every training protocol is derived from peer-reviewed research.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Lab-Driven Logic</h3>
+                <p>Decision making based on physiological lab parameters.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Risk-Aware</h3>
+                <p>Exercise programming built around injury prevention and safety.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="early-access" class="section-padding" style="background: var(--primary); color: white; text-align: center;">
+    <div class="container">
+        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Built for Those Who Want Real Results — Safely</h2>
+        <a href="#" class="btn btn-primary" style="margin-bottom: 20px;">Join Early Access</a>
+        <p style="opacity: 0.8;">Affordable plans for students | Premium medical support for professionals</p>
+    </div>
+</section>
+
+<section id="pricing" class="section-padding">
+    <div class="container">
+        <div class="section-title">
+            <h2>Simple & Transparent Pricing</h2>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3>Student Plan</h3>
+                <div class="price">Free</div>
+                <ul style="list-style: none; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> AI Workouts</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> Basic Nutrition</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> Community Support</li>
+                </ul>
+                <a href="#" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+            </div>
+            <div class="pricing-card pro">
+                <div style="position: absolute; top: 15px; right: 20px; background: var(--secondary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">Popular</div>
+                <h3>Pro Plan</h3>
+                <div class="price">$29<span style="font-size: 1rem;">/mo</span></div>
+                <ul style="list-style: none; margin-bottom: 30px; text-align: left;">
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> Doctor Consults</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> Lab Personalization</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> Advanced Diagnostics</li>
+                    <li><i class="fa-solid fa-check" style="color: var(--secondary);"></i> Partner Gym Access</li>
+                </ul>
+                <a href="#" class="btn btn-primary" style="width: 100%;">Upgrade to Pro</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="faq" class="section-padding" style="background: var(--bg-alt);">
+    <div class="container">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-container">
+            <details>
+                <summary>Is this medically safe?</summary>
+                <div style="padding: 20px; color: var(--text-muted);">Yes, our logic engine is built with medical professionals to ensure all recommendations stay within safe physiological limits.</div>
+            </details>
+            <details>
+                <summary>Do I need lab tests?</summary>
+                <div style="padding: 20px; color: var(--text-muted);">While recommended for full personalization, you can start with basic data and upload tests later.</div>
+            </details>
+            <details>
+                <summary>Is my data private?</summary>
+                <div style="padding: 20px; color: var(--text-muted);">Absolutely. We use clinical-grade encryption and never sell health data.</div>
+            </details>
+            <details>
+                <summary>Is this a medical service?</summary>
+                <div style="padding: 20px; color: var(--text-muted);">It is a fitness platform driven by medical logic. It does not replace your primary doctor.</div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="section-padding" style="text-align: center;">
+    <div class="container">
+        <h2>Stop Guessing. Start Measuring.</h2>
+        <p style="margin-bottom: 30px;">Join MyFitPal today and train with precision.</p>
+        <a href="#" class="btn btn-primary">Get Started with MyFitPal</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <a href="#" class="footer-logo">
+                    <i class="fa-solid fa-dna"></i> MyFitPal
+                </a>
+                <p style="color: #E0E4E3; font-size: 0.9rem;">Replacing guesswork with medical logic. Designed for students and professionals.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Pricing</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Security</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Account</h4>
+                <div style="margin-bottom: 20px;">
+                    <a href="#" style="text-decoration: none; display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--secondary); font-size: 1.2rem;">
+                        <i class="fa-solid fa-dna"></i> MyFitPal
+                    </a>
+                </div>
+                <p style="color: #888; font-size: 0.85rem;">support@myfitpal.health</p>
+            </div>
+        </div>
+        <div class="disclaimer">
+            <p>Medical Disclaimer: MyFitPal is a fitness support tool. Always consult a healthcare professional before starting any new exercise or diet regimen. Recommendations are based on medical logic and non-clinical data aggregation.</p>
+            <p style="margin-top: 15px;">&copy; 2026 MyFitPal. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+```
+
+</body>
+</html>
